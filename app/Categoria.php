@@ -8,7 +8,14 @@ class Categoria extends Model
 {
     protected $table = 'categorias';
 
+    protected $attributes = [
+        'nombre' => "Sin Categoria",
+    ];
 
 
+    public function productosObject()
+    {
+        return $this->hasMany('App\Producto', 'producto');
+    }
 
 }
