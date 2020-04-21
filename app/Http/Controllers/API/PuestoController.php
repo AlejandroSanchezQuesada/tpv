@@ -11,7 +11,7 @@ class PuestoController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Puesto::class, 'puesto');
+      //  $this->authorizeResource(Puesto::class, 'puesto');
     }
 
 

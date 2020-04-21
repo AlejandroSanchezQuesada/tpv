@@ -12,7 +12,7 @@ class PedidoController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Pedido::class, 'pedido');
+       // $this->authorizeResource(Pedido::class, 'pedido');
     }
 
     /**

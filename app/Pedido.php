@@ -8,6 +8,8 @@ class Pedido extends Model
 {
     protected $table = 'pedidos';
 
+    protected $fillable = ['usuario','puesto','fecha_pedido'];
+
     public function usuarioObject() {
         return $this->belongsTo('App\User', 'usuario');
     }

@@ -12,7 +12,7 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Categoria::class, 'categoria');
+       // $this->authorizeResource(Categoria::class, 'categoria');
     }
 
 

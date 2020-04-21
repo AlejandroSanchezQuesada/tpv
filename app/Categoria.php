@@ -8,9 +8,7 @@ class Categoria extends Model
 {
     protected $table = 'categorias';
 
-    protected $attributes = [
-        'nombre' => "Sin Categoria",
-    ];
+    protected $fillable = ['nombre'];
 
 
     public function productosObject()

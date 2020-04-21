@@ -12,7 +12,7 @@ class ProductoDePedidoController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(ProductoDePedido::class, 'productoDePedido');
+       // $this->authorizeResource(ProductoDePedido::class, 'productoDePedido');
     }
 
 
