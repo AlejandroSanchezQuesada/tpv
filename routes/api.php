@@ -19,15 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('users','API\UserController');
-Route::apiResource('productos','API\ProductoController');
-Route::apiResource('pedidos','API\PedidoController');
-Route::apiResource('categorias','API\CategoriaController');
-Route::apiResource('puestos','API\PuestoController');
-Route::apiResource('productosdepedidos','API\ProductoDePedidoController');
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('productos', 'API\ProductoController');
+    Route::apiResource('users', 'API\UserController');
+    Route::apiResource('pedidos', 'API\PedidoController');
+    Route::apiResource('categorias', 'API\CategoriaController');
+    Route::apiResource('puestos', 'API\PuestoController');
+    Route::apiResource('productosdepedidos', 'API\ProductoDePedidoController');
+});
 
 
-
-
-
-
+Route::post('/registrarse', 'API\AuthController@registrarse');
+Route::post('/login', 'API\AuthController@login');

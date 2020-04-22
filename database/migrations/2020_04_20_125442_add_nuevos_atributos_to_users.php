@@ -15,7 +15,7 @@ class AddNuevosAtributosToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('jefe');
-            $table->string('avatar', 100);
+            $table->string('avatar', 100)->nullable();
         });
     }
 
