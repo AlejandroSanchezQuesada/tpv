@@ -35,8 +35,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Relacion con pedidos
     public function pedidosObject()
     {
         return $this->hasMany('App\Pedido', 'usuario');
     }
+
+    //Valores por defecto de algunos atributos
+
+    protected $attributes = [
+        'jefe' => false,
+    ];
 }

@@ -20,7 +20,7 @@
 				<td>{{ producto.nombre }}</td>
                 <td>{{ producto.descripcion }}</td>
                 <td>{{ producto.precio }}</td>
-                <td><img :src="producto.foto" alt=""></td>
+                <td><img :src="producto.foto" alt="" height="50px" width="50px"></td>
                 <td>{{ producto.categoria.nombre }}</td>
 
 			</tr>
