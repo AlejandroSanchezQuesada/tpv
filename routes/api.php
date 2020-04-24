@@ -20,12 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
+    //Rutas basicas
     Route::apiResource('productos', 'API\ProductoController');
     Route::apiResource('users', 'API\UserController');
     Route::apiResource('pedidos', 'API\PedidoController');
     Route::apiResource('categorias', 'API\CategoriaController');
     Route::apiResource('puestos', 'API\PuestoController');
     Route::apiResource('productosdepedidos', 'API\ProductoDePedidoController');
+
+    //Rutas personalizadas
+
+    Route::get('/productosmasvendidos', 'API\ProductoDePedidoController@productosMasVendidos');
 });
 
 

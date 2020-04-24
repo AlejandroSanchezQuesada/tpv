@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductoDePedidoResource;
 use App\ProductoDePedido;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class ProductoDePedidoController extends Controller
@@ -75,4 +76,23 @@ class ProductoDePedidoController extends Controller
             echo "Se han borrado los Productos del Pedido con éxito";
         }
     }
+
+
+    /* Mostrar los productos mas vendidos de forma descendente */
+   /* Lo quiero para la pantalla principal del TPV tener una lista con los mas vendidos */
+
+    public function productosMasVendidos(){
+        $productosVendidos = DB::table('productos_de_pedidos')
+        ->select(DB::raw('producto,SUM(cantidad) as unidades_vendidas'))
+        ->groupBy('producto')
+        ->orderByRaw('unidades_vendidas DESC')
+        ->get();
+
+        return $productosVendidos;
+
+    }
+
+
+
+
 }
