@@ -1,3 +1,20 @@
+<h1>Creado por : Alejandro Sánchez Quesada</h1>
+<h3>Este proyecto está elaborado con las siguientes tecnologías.</h3>
+<ul>
+    <li>Backend: Laravel</li>
+    <li>Frontend: VueJS</li>
+    <li>Estilo: BulmaCss</li>
+</ul>
+<p>El propósito de este proyecto, es el poder tener un tpv totalmente funcional con las siguientes características</p>
+<ul>
+    <li>Control de Usuarios</li>
+    <li>Control de Productos, así como sus categorías y precios</li>
+    <li>Control de Pedidos, elaborar pedidos así como obtener datos de ellos</li>
+    <li>Accesibilidad mediante un teclado en pantalla, el programa ha de facilitar un teclado en pantalla para evitar la necesidad de un teclado físico en el establecimiento</li>
+    <li>Permitir imprimir el ticket, una vez esté elaborado el pedido este deberá poder imprimir el recibo</li>
+</ul>
+<hr>
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
