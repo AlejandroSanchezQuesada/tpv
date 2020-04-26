@@ -26,8 +26,8 @@
 			</tr>
 		</div>
 
-
-
+<button v-on:click="muestraToken()">MuestraElToken</button>
+<button v-on:click="saludar()">MuestraElToken</button>
 
 	</div>
 	<script src="https://unpkg.com/vue/dist/vue.js"></script>
