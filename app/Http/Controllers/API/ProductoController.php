@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductoResource;
 use App\Producto;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -73,5 +74,15 @@ class ProductoController extends Controller
         if($producto->delete()){
             echo "Se ha borrado el Producto con éxito";
         }
+    }
+
+
+    //Encontrar productos por nombre
+
+    public function findbyNombre(Request $request){
+        $productos = DB::table('productos')
+                ->where('nombre', 'like', '%'.$request->nombre.'%')
+                ->get();
+        return $productos;
     }
 }

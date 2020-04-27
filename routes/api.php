@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
-    //Rutas basicas
+    //Rutas CRUD
     Route::apiResource('productos', 'API\ProductoController');
     Route::apiResource('users', 'API\UserController');
     Route::apiResource('pedidos', 'API\PedidoController');
@@ -28,9 +28,32 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('puestos', 'API\PuestoController');
     Route::apiResource('productosdepedidos', 'API\ProductoDePedidoController');
 
-    //Rutas personalizadas
+    //Rutas personalizadas -----------------------------------------------------------------
 
+    //Rutas de productospedidos
     Route::get('/productosmasvendidos', 'API\ProductoDePedidoController@productosMasVendidos');
+
+
+    //Rutas de usuarios
+    Route::post('finduserbynombre', 'API\UserController@findbyNombre');
+    Route::post('finduserbyemail', 'API\UserController@findbyEmail');
+    Route::get('finduserisjefe', 'API\UserController@isJefe');
+
+    //Rutas de categorias
+    Route::post('findcategoriabynombre','API\CategoriaController@findbyNombre');
+
+    //Rutas de productos
+    Route::post('findproductobynombre','API\ProductoController@findbyNombre');
+
+    //Rutas de puestos
+    Route::post('findpuestobynombre','API\PuestoController@findbyNombre');
+
+    //Rutas de pedidos
+    Route::post('findpedidosbyfecha','API\PedidoController@findbyFecha');
+    Route::post('findpedidosdeusuario','API\PedidoController@findPedidobyUsuario');
+    Route::post('findpedidosdepuestos','API\PedidoController@findPedidobyPuesto');
+
+
 });
 
 

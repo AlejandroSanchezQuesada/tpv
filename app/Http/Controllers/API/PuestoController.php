@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PuestoResource;
 use App\Puesto;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PuestoController extends Controller
@@ -73,5 +74,15 @@ class PuestoController extends Controller
         if($puesto->delete()){
             echo "Se ha borrado el Producto con éxito";
         }
+    }
+
+
+    //Encontrar puesto por nombre
+
+    public function findbyNombre(Request $request){
+        $puestos = DB::table('puestos')
+                ->where('nombre', 'like', '%'.$request->nombre.'%')
+                ->get();
+        return $puestos;
     }
 }

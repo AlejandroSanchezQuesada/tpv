@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PedidoResource;
 use App\Pedido;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -74,5 +75,29 @@ class PedidoController extends Controller
         if($pedido->delete()){
             echo "Se ha borrado el Pedido con éxito";
         }
+    }
+
+    //Encontrar pedido por fecha
+    public function findbyFecha(Request $request){
+        $pedidos = DB::table('pedidos')
+                ->where('fecha_pedido', 'like', '%'.$request->fecha.'%')
+                ->get();
+        return $pedidos;
+    }
+
+    //Encontrar pedidos de un usuario
+    public function findPedidobyUsuario(Request $request){
+        $pedidos = DB::table('pedidos')
+                ->where('usuario', 'like', $request->usuario)
+                ->get();
+        return $pedidos;
+    }
+
+    //Encontrar pedidos de un puesto
+    public function findPedidobyPuesto(Request $request){
+        $pedidos = DB::table('pedidos')
+                ->where('puesto', 'like', $request->puesto)
+                ->get();
+        return $pedidos;
     }
 }

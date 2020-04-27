@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Categoria;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CategoriaResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -75,5 +76,16 @@ class CategoriaController extends Controller
         if($categoria->delete()){
             echo "Se ha borrado la Categoria con éxito";
         }
+    }
+
+
+    //Encontrar categorias por nombre
+
+    public function findbyNombre(Request $request){
+
+        $categorias = DB::table('categorias')
+                ->where('nombre', 'like', '%'.$request->nombre.'%')
+                ->get();
+        return $categorias;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -75,4 +76,36 @@ class UserController extends Controller
             echo "Se ha borrado el Usuario con éxito";
         }
     }
+
+    //Encontrar usuarios por nombre
+    public function findbyNombre(Request $request){
+
+        $users = DB::table('users')
+                ->where('name', 'like', $request->name.'%')
+                ->get();
+        return $users;
+    }
+
+    //Encontrar usuarios por email
+    public function findbyEmail(Request $request){
+
+        $users = DB::table('users')
+                ->where('email', 'like', '%'.$request->email.'%')
+                ->get();
+        return $users;
+    }
+
+    //Encontrar jefes
+    public function isJefe(){
+
+        $users = DB::table('users')
+                ->where('jefe', '=', 1)
+                ->get();
+        return $users;
+    }
+
+
+
+
+
 }
