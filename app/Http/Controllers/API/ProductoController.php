@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductoResource;
 use App\Producto;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -35,7 +37,6 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         $producto = json_decode($request->getContent(), true);
-
         return new ProductoResource(Producto::create($producto));
     }
 

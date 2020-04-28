@@ -1,38 +1,29 @@
 var aplicacion = new Vue({
     el: "#app",
     data: {
-        id:"",
-        nombre:"",
-        descripcion:"",
-        categoria:"",
-        precio:"",
-        productos:[{}]
+        nombre: "",
+        descripcion: "",
+        precio: "",
+        categoria: "",
+        foto: "",
+        productos: [{}]
 
     }, mounted() {
-        axios.get('/api/productos', {headers: {'Accept':'application/json','Authorization':'Bearer '+localStorage.getItem("access_token")}})
-        .then(response => (this.productos = response.data))
+        axios.get('/api/productos', { headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem("access_token") } })
+            .then(response => (this.productos = response.data))
 
 
     },
     methods: {
-        muestraToken: function (event) {
-            console.log(localStorage.getItem("access_token"));
-          },
-          saludar: function (event) {
-            alert("hola");
-          },
-          editar: function (producto){
-            this.id = producto.id;
+        crearProducto: function (event) {
+            console.log(this.file);
 
-          },
-          aceptarCambios: function (params) {
-            axios.put('/api/productos/'+this.id, {
-
+            axios.post('/api/productos', {
                 nombre: this.nombre,
                 descripcion: this.descripcion,
                 precio: this.precio,
                 categoria: this.categoria,
-                foto: "sinfoto"
+                foto: this.foto
             }, {
                 headers: {
                     'Accept': 'application/json',
@@ -51,7 +42,22 @@ var aplicacion = new Vue({
                     console.log(error.response)
 
                 });
-          }
+
+        }, imageChanged(e){
+            console.log(e.target.files[0]);
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(e.target.files[0]);
+
+            fileReader.onload = (e) => {
+                this.foto = e.target.result;
+            }
+
+            console.log(this.foto);
+
+
+        }
+
+
     },
 
 
