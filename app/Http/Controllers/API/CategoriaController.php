@@ -6,6 +6,7 @@ use App\Categoria;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CategoriaResource;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
@@ -13,7 +14,7 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-       // $this->authorizeResource(Categoria::class, 'categoria');
+        // $this->authorizeResource(Categoria::class, 'categoria');
     }
 
 
@@ -25,7 +26,6 @@ class CategoriaController extends Controller
     public function index()
     {
         return CategoriaResource::collection(Categoria::paginate());
-
     }
 
     /**
@@ -36,9 +36,14 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = json_decode($request->getContent(), true);
 
-        return new CategoriaResource(Categoria::create($categoria));
+        if ($user = Auth::user()->jefe == 1) {
+            $categoria = json_decode($request->getContent(), true);
+
+            return new CategoriaResource(Categoria::create($categoria));
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -61,8 +66,15 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        $categoria->update(json_decode($request->getContent(),true));
-        return new CategoriaResource($categoria);
+
+
+        if ($user = Auth::user()->jefe == 1) {
+
+            $categoria->update(json_decode($request->getContent(), true));
+            return new CategoriaResource($categoria);
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -73,19 +85,26 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        if($categoria->delete()){
-            echo "Se ha borrado la Categoria con éxito";
+
+        if ($user = Auth::user()->jefe == 1) {
+
+            if ($categoria->delete()) {
+                echo "Se ha borrado la Categoria con éxito";
+            }
+        } else {
+            return response('El usuario no es un jefe', 403);
         }
     }
 
 
     //Encontrar categorias por nombre
 
-    public function findbyNombre(Request $request){
+    public function findbyNombre(Request $request)
+    {
 
         $categorias = DB::table('categorias')
-                ->where('nombre', 'like', '%'.$request->nombre.'%')
-                ->get();
+            ->where('nombre', 'like', '%' . $request->nombre . '%')
+            ->get();
         return $categorias;
     }
 }

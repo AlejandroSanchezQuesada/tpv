@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PuestoResource;
 use App\Puesto;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class PuestoController extends Controller
 {
     public function __construct()
     {
-      //  $this->authorizeResource(Puesto::class, 'puesto');
+        //  $this->authorizeResource(Puesto::class, 'puesto');
     }
 
 
@@ -34,9 +35,14 @@ class PuestoController extends Controller
      */
     public function store(Request $request)
     {
-        $puesto = json_decode($request->getContent(), true);
 
-        return new PuestoResource(Puesto::create($puesto));
+        if ($user = Auth::user()->jefe == 1) {
+            $puesto = json_decode($request->getContent(), true);
+
+            return new PuestoResource(Puesto::create($puesto));
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -59,8 +65,13 @@ class PuestoController extends Controller
      */
     public function update(Request $request, Puesto $puesto)
     {
-        $puesto->update(json_decode($request->getContent(),true));
-        return new PuestoResource($puesto);
+        if ($user = Auth::user()->jefe == 1) {
+
+            $puesto->update(json_decode($request->getContent(), true));
+            return new PuestoResource($puesto);
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -71,18 +82,23 @@ class PuestoController extends Controller
      */
     public function destroy(Puesto $puesto)
     {
-        if($puesto->delete()){
-            echo "Se ha borrado el Producto con éxito";
+        if ($user = Auth::user()->jefe == 1) {
+            if ($puesto->delete()) {
+                echo "Se ha borrado el Producto con éxito";
+            }
+        } else {
+            return response('El usuario no es un jefe', 403);
         }
     }
 
 
     //Encontrar puesto por nombre
 
-    public function findbyNombre(Request $request){
+    public function findbyNombre(Request $request)
+    {
         $puestos = DB::table('puestos')
-                ->where('nombre', 'like', '%'.$request->nombre.'%')
-                ->get();
+            ->where('nombre', 'like', '%' . $request->nombre . '%')
+            ->get();
         return $puestos;
     }
 }

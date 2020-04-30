@@ -13,7 +13,7 @@ class ProductoDePedidoController extends Controller
 
     public function __construct()
     {
-       // $this->authorizeResource(ProductoDePedido::class, 'productoDePedido');
+        // $this->authorizeResource(ProductoDePedido::class, 'productoDePedido');
     }
 
 
@@ -60,7 +60,7 @@ class ProductoDePedidoController extends Controller
      */
     public function update(Request $request, ProductoDePedido $productoDePedido)
     {
-        $productoDePedido->update(json_decode($request->getContent(),true));
+        $productoDePedido->update(json_decode($request->getContent(), true));
         return new ProductoDePedidoResource($productoDePedido);
     }
 
@@ -72,27 +72,23 @@ class ProductoDePedidoController extends Controller
      */
     public function destroy(ProductoDePedido $productoDePedido)
     {
-        if($productoDePedido->delete()){
+        if ($productoDePedido->delete()) {
             echo "Se han borrado los Productos del Pedido con éxito";
         }
     }
 
 
     /* Mostrar los productos mas vendidos de forma descendente */
-   /* Lo quiero para la pantalla principal del TPV tener una lista con los mas vendidos */
+    /* Lo quiero para la pantalla principal del TPV tener una lista con los mas vendidos */
 
-    public function productosMasVendidos(){
+    public function productosMasVendidos()
+    {
         $productosVendidos = DB::table('productos_de_pedidos')
-        ->select(DB::raw('producto,SUM(cantidad) as unidades_vendidas'))
-        ->groupBy('producto')
-        ->orderByRaw('unidades_vendidas DESC')
-        ->get();
+            ->select(DB::raw('producto,SUM(cantidad) as unidades_vendidas'))
+            ->groupBy('producto')
+            ->orderByRaw('unidades_vendidas DESC')
+            ->get();
 
         return $productosVendidos;
-
     }
-
-
-
-
 }

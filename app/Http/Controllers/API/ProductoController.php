@@ -7,6 +7,7 @@ use App\Http\Resources\ProductoResource;
 use App\Producto;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ProductoController extends Controller
 {
     public function __construct()
     {
-       // $this->authorizeResource(Producto::class, 'producto');
+        // $this->authorizeResource(Producto::class, 'producto');
     }
 
 
@@ -36,8 +37,12 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $producto = json_decode($request->getContent(), true);
-        return new ProductoResource(Producto::create($producto));
+        if ($user = Auth::user()->jefe == 1) {
+            $producto = json_decode($request->getContent(), true);
+            return new ProductoResource(Producto::create($producto));
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -60,8 +65,12 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        $producto->update(json_decode($request->getContent(),true));
-        return new ProductoResource($producto);
+        if ($user = Auth::user()->jefe == 1) {
+            $producto->update(json_decode($request->getContent(), true));
+            return new ProductoResource($producto);
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -72,18 +81,25 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        if($producto->delete()){
-            echo "Se ha borrado el Producto con éxito";
+
+        if ($user = Auth::user()->jefe == 1) {
+
+            if ($producto->delete()) {
+                echo "Se ha borrado el Producto con éxito";
+            }
+        } else {
+            return response('El usuario no es un jefe', 403);
         }
     }
 
 
     //Encontrar productos por nombre
 
-    public function findbyNombre(Request $request){
+    public function findbyNombre(Request $request)
+    {
         $productos = DB::table('productos')
-                ->where('nombre', 'like', '%'.$request->nombre.'%')
-                ->get();
+            ->where('nombre', 'like', '%' . $request->nombre . '%')
+            ->get();
         return $productos;
     }
 }

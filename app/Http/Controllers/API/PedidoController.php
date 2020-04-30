@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PedidoResource;
 use App\Pedido;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class PedidoController extends Controller
 
     public function __construct()
     {
-       // $this->authorizeResource(Pedido::class, 'pedido');
+        // $this->authorizeResource(Pedido::class, 'pedido');
     }
 
     /**
@@ -24,7 +25,6 @@ class PedidoController extends Controller
     public function index()
     {
         return PedidoResource::collection(Pedido::paginate());
-
     }
 
     /**
@@ -60,8 +60,13 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        $pedido->update(json_decode($request->getContent(),true));
-        return new PedidoResource($pedido);
+
+        if ($user = Auth::user()->jefe == 1) {
+            $pedido->update(json_decode($request->getContent(), true));
+            return new PedidoResource($pedido);
+        } else {
+            return response('El usuario no es un jefe', 403);
+        }
     }
 
     /**
@@ -72,32 +77,40 @@ class PedidoController extends Controller
      */
     public function destroy(Pedido $pedido)
     {
-        if($pedido->delete()){
-            echo "Se ha borrado el Pedido con éxito";
+
+        if ($user = Auth::user()->jefe == 1) {
+            if ($pedido->delete()) {
+                echo "Se ha borrado el Pedido con éxito";
+            }
+        } else {
+            return response('El usuario no es un jefe', 403);
         }
     }
 
     //Encontrar pedido por fecha
-    public function findbyFecha(Request $request){
+    public function findbyFecha(Request $request)
+    {
         $pedidos = DB::table('pedidos')
-                ->where('fecha_pedido', 'like', '%'.$request->fecha.'%')
-                ->get();
+            ->where('fecha_pedido', 'like', '%' . $request->fecha . '%')
+            ->get();
         return $pedidos;
     }
 
     //Encontrar pedidos de un usuario
-    public function findPedidobyUsuario(Request $request){
+    public function findPedidobyUsuario(Request $request)
+    {
         $pedidos = DB::table('pedidos')
-                ->where('usuario', 'like', $request->usuario)
-                ->get();
+            ->where('usuario', 'like', $request->usuario)
+            ->get();
         return $pedidos;
     }
 
     //Encontrar pedidos de un puesto
-    public function findPedidobyPuesto(Request $request){
+    public function findPedidobyPuesto(Request $request)
+    {
         $pedidos = DB::table('pedidos')
-                ->where('puesto', 'like', $request->puesto)
-                ->get();
+            ->where('puesto', 'like', $request->puesto)
+            ->get();
         return $pedidos;
     }
 }
