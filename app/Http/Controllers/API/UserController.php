@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -104,6 +105,12 @@ class UserController extends Controller
         return $users;
     }
 
+
+    //Mostrar el usuario logeado
+    public function userlogged(){
+
+        return $user = Auth::user();
+    }
 
 
 

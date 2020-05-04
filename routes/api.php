@@ -38,6 +38,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('finduserbynombre', 'API\UserController@findbyNombre');
     Route::post('finduserbyemail', 'API\UserController@findbyEmail');
     Route::get('finduserisjefe', 'API\UserController@isJefe');
+    Route::get('userlogged', 'API\UserController@userlogged');
+
+
 
     //Rutas de categorias
     Route::post('findcategoriabynombre','API\CategoriaController@findbyNombre');
