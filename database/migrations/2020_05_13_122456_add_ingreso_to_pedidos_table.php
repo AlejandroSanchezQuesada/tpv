@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNuevosAtributosToUsers extends Migration
+class AddIngresoToPedidosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddNuevosAtributosToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('jefe');
-            $table->string('avatar', 200)->nullable();
+        Schema::table('pedidos', function (Blueprint $table) {
+            $table->double('ingreso', 10, 2);
         });
     }
 
@@ -26,9 +25,8 @@ class AddNuevosAtributosToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('jefe');
-            $table->dropColumn('avatar');
+        Schema::table('pedidos', function (Blueprint $table) {
+            $table->dropColumn('ingreso');
         });
     }
 }

@@ -102,4 +102,17 @@ class ProductoController extends Controller
             ->get();
         return $productos;
     }
+
+    //Encontrar productos por id categoria
+
+    public function findbyCategoria(Request $request)
+    {
+        $productos = DB::table('productos')
+            ->where('categoria', '=', $request->id)
+            ->get();
+        return $productos;
+    }
+
+
+
 }

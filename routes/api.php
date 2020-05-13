@@ -45,9 +45,10 @@ Route::middleware('auth:api')->group(function () {
     //Rutas de categorias
     Route::post('findcategoriabynombre','API\CategoriaController@findbyNombre');
 
+
     //Rutas de productos
     Route::post('findproductobynombre','API\ProductoController@findbyNombre');
-
+    Route::post('findproductobycategoria','API\ProductoController@findbyCategoria');
     //Rutas de puestos
     Route::post('findpuestobynombre','API\PuestoController@findbyNombre');
 
