@@ -84,8 +84,9 @@ class ProductoDePedidoController extends Controller
     public function productosMasVendidos()
     {
         $productosVendidos = DB::table('productos_de_pedidos')
-            ->select(DB::raw('producto,SUM(cantidad) as unidades_vendidas'))
-            ->groupBy('producto')
+            ->join('productos', 'productos_de_pedidos.producto', '=', 'productos.id')
+            ->select(DB::raw('productos.nombre,SUM(cantidad) as unidades_vendidas'))
+            ->groupBy('productos.nombre')
             ->orderByRaw('unidades_vendidas DESC')
             ->get();
 
